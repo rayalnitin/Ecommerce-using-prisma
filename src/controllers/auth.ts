@@ -1,3 +1,4 @@
+/// <reference types="../types/express" />
 import { NextFunction, Request , Response } from "express"
 import { prismaClient } from ".."
 import { hashSync , compareSync } from "bcrypt"
@@ -41,4 +42,9 @@ export const login = async (req:Request , res:Response) =>{
     },JWT_SECRET)
 
     res.json({user,token})
+}
+
+// Controller for logged in user
+export const me = async (req:Request , res:Response) =>{
+    res.json(req.user)      
 }
