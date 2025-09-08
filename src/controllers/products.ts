@@ -1,6 +1,6 @@
 import {NextFunction, Request , Response } from 'express'
 import { prismaClient } from '..'
-import { productSchema } from '../schema/products'
+import { productSchema } from '../schema/users'
 import { Prisma } from '@prisma/client'
 import { notFoundException } from '../exceptions/not-found'
 import { ErrorCodes } from '../exceptions/root'
