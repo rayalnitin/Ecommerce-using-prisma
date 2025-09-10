@@ -26,3 +26,12 @@ export const updatedUserSchema = z.object({
     defaultShippingAddress:z.number().optional(),
     defaultBillingAddress:z.number().optional()
 })
+
+export const createCartSchema = z.object({
+    productId:z.number(),
+    quantity:z.number()
+})
+
+export const changeQuantitySchema = z.object({
+    quantity:z.number()
+})
