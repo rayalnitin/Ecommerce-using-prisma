@@ -81,3 +81,54 @@ export const updateUser = async(req:Request , res:Response)=>{
 
     res.json(UpdatedUser)
 }
+
+export const listUsers = async(req:Request , res:Response)=>{
+    const users = await prismaClient.user.findMany({
+        skip:parseInt(req.query.skip as string) || 0,
+        take:5
+    })
+
+    res.json(users)
+}
+export const getUserbyId = async(req:Request , res:Response)=>{
+    try{
+        const user = await prismaClient.user.findFirstOrThrow({
+            where:{
+                id: +req.params.id
+            },
+            include:{
+                Address:true
+            }
+        })
+        res.json(user)
+    }catch(error){
+        throw new notFoundException('User not found' , ErrorCodes.USER_NOT_FOUND)
+    }
+}
+
+export const changeUserRole = async(req:Request , res:Response)=>{
+    try{
+        const existingUser = await prismaClient.user.findFirstOrThrow({
+            where:{
+                id: +req.params.id
+            }
+        })
+        if(existingUser.role === 'USER'){
+            const user = await prismaClient.user.update({
+                where:{
+                    id: +req.params.id
+                },
+                data:{
+                    role: req.body.role
+                }
+            })
+            res.json(user)
+        }else{
+            res.json({message:'User already at Admin level'})
+        }
+        
+    }catch(error){
+        throw new notFoundException('User not found' , ErrorCodes.USER_NOT_FOUND)
+    }
+}
+
